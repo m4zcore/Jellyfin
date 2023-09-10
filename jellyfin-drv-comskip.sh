@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+
 #
 # This is for Jellyfin docker. 
 # The comskip.ini file used is stored in /config/comskip for easy access, editing and to survive upgrades.
@@ -15,7 +16,7 @@ __ffmpeg="$(which ffmpeg || echo '/usr/lib/jellyfin-ffmpeg/ffmpeg')"
 
 # Set to skip commericals (mark as chapters) or cut commericals
 # __command="/config/comskip"
-__command="/config/comcut"
+__command="/home/pms/comskip/comcut"
 
 # Set video codec for ffmpeg
 __videocodec="libvpx-vp9"
@@ -73,7 +74,7 @@ printf "[post-process.sh] %bExtracting subtitles...%b\n" "$GREEN" "$NC"
 $__ffmpeg -f lavfi -i movie="${__file}[out+subcc]" -map 0:1 "${__base}.en.srt"
 
 #comcut/comskip - currently using jellyfin ffmpeg in docker
-$__command --ffmpeg=$__ffmpeg --comskip=/usr/local/bin/comskip --lockfile=/tmp/comchap.lock --comskip-ini=/config/comskip/comskip.ini "${__file}"
+$__command --ffmpeg=$__ffmpeg --comskip=/home/pms/comskip/comskip --lockfile=/home/pms/comskip/comchap.lock --comskip-ini=/home/pms/comskip/comskip.ini "${__file}"
 
 
 # Transcode to mkv, crf parameter can be adjusted to change output quality
